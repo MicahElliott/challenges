@@ -11,4 +11,5 @@
                "-d" "test"]}
   :uberjar {:extra-deps {seancorfield/depstar {:mvn/version "0.5.2"}}
             :main-opts ["-m" "hf.depstar.uberjar" "challenges.jar"
-                        "-C" "-m" "mde.challenges"]}}}
+                        "-C" "-m" "run-all"]}}}
+                        ;; "-C" "-m" "mde.word-search"]}}}

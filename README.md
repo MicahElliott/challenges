@@ -1,4 +1,10 @@
-# Coding challenges for TractManager
+# Coding Challenges
+
+This suite of challenge questions presently contains solutions to the
+following:
+
+- word search
+- phone grid pattern unlocking
 
 This project was generated with:
 
@@ -8,17 +14,31 @@ clj -Anew app mde/challenges
 
 ## Installation
 
-Download from https://GitHub.com/HicahElliott/challenges.
+Download from https://GitHub.com/HicahElliott/challenges
 
 ## Usage
 
-FIXME: explanation
+Run the project and all its modules directly:
 
-Run the project directly:
+	❯ clojure -m run-all
 
-    $ clojure -m mde.challenges
+    WORD SEARCH
+	===========
+	The word HELLO appears in this matrix 2 times.
+	AOTDLROW
+	LCBMUMLU
+	DRUJDBLJ
+	PAZHZZEF
+	BCZELFHW
+	RKULVPPG
+	ALBLPOPQ
+	BEMOPPJY
 
-Run the project's tests (they'll fail until you edit them):
+	UNLOCKING
+	=========
+	The unlock pattern [1 2 3] is legal for the standard 3x3 grid.
+
+Run the project's tests.
 
     $ clojure -A:test:runner
 
@@ -26,29 +46,11 @@ Build an uberjar:
 
     $ clojure -A:uberjar
 
-Run that uberjar:
+## TODO
 
-    $ java -jar challenges.jar
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+- add to circleci
+- generate docs with [codox](https://github.com/weavejester/codox)
 
 ## License
 
 Copyright © 2020 Micah Elliott
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.

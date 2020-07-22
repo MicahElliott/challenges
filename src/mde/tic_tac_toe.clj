@@ -1,81 +1,61 @@
-(ns mde.challenges
-  (:gen-class))
+(ns mde.tic-tac-toe)
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
-
-(let
-  [check (fn [& sets]
-    (first (filter #(not (nil? %))
+;; ORIGINAL VERSION
+(let ; EMEND: could use letfn for these two fns
+  [check (fn [& sets] ; EMEND: naming as check-for-winner is more descriptive, and not actually sets
+    (first (filter #(not (nil? %)) ; EMEND: remove is cleaner than filter here
       (map
         (fn [ss]
-          (let [r (first (filter #(or (= % #{:x}) (= % #{:o})) ss))]
-            (if r (first r) nil)))
+          ;; Check for sets of one suit to see if winner present
+          (let [r (first (filter #(or (= % #{:x}) (= % #{:o})) ss))] ;; EMEND: getting a little dense to parse
+            (if r (first r) nil))) ; EMEND: when is cleaner here
         sets))))]
-  (defn ttt [board]
-    (check
-      (map set board)
-      (map set (apply map list board))
-      (list (set (map #(nth (nth board %) %) (range 3))))
-      (list (set (map #(nth (nth board %) (- 2 %)) (range 3))))
+  (defn ttt [board] ; EMEND: could spell out fully as tic-tac-toe for obviousness
+    (check ; generate 4 colls for rows, cols, and diags
+      (map set board) ; work on rows, checking for non-presence of X or O
+      (map set (apply map list board)) ; transpose to work as cols
+      (list (set (map #(nth (nth board %) %) (range 3)))) ; diag1, top-left to bottom-right
+      (list (set (map #(nth (nth board %) (- 2 %)) (range 3)))) ; other diagonal
 )))
 
-(assert (= :x (ttt [[:x :o :x] [:x :o :o] [:x :x :o]])))
+;; These are grids that need eyeballing, so better to align as such.
+;; Would be nice to have these in the test file.
+(assert (= :x (ttt [[:x :o :x]
+                    [:x :o :o]
+                    [:x :x :o]])))
 (assert (= :o (ttt [[:o :x :x] [:x :o :x] [:x :o :o]])))
 (assert (nil? (ttt [[:x :o :x] [:x :o :x] [:o :x :o]])))
 
-;; 1. What is the code trying to accomplish?
+;; 1. WHAT IS THE CODE TRYING TO ACCOMPLISH?
 
-;; This is Tic-Tac-Toe!
-;; See new inline comments.
+;; This is Tic-Tac-Toe! If a "line" of three-in-a-row is found on the
+;; board, that "suit" is the winner.
 
-;; 2. Describe at a high level how it works.
+;; 2. DESCRIBE AT A HIGH LEVEL HOW IT WORKS.
 
-;; 3. What feedback would you provide in a code review?
+;; The main game function `ttt` creates all four groupings of possible
+;; winning combinations for tic-tac-toe. The groupings are rows,
+;; columns, and two diagonals. By checking each for a "dominant suit"
+;; in each (a `set` with only one suit present), the `check` function
+;; can determine a winner.
 
-;; I would gently state that it should have a bit of reformatting to
-;; conform to our agreed upon conventions.
+;; 3. WHAT FEEDBACK WOULD YOU PROVIDE IN A CODE REVIEW?
 
-;; 4. (Bonus) How would you write it?
+;; See inline comments.
+;; Also, limitations should be documented.
 
+;; 4. (BONUS) HOW WOULD YOU WRITE IT?
 
-(defn check [& sets]
-  (first
-   (remove nil?
-           (map
-            (fn [ss]
-              (let [r (first
-                       (filter #(or (= % #{:x}) (= % #{:o}))
-                               ss))]
-                (when r (first r))))
-            sets))))
-
-(defn ttt [board]
-  (check
-   (map set board)
-   (map set (apply map list board))
-   (list (set (map #(nth (nth board %) %) (range 3))))
-   (list (set (map #(nth (nth board %) (- 2 %)) (range 3))))))
-
-(ttt [[:x :o :x]
-      [:x :o :o]
-      [:x :x :o]])
-
-(letfn [(foo [ss]
+(letfn [(find-single-set-winner [ss]
           (when-let [r (first
                         (filter #(or (= % #{:x})
                                      (= % #{:o}))
                                 ss))]
             (first r)))
-        (check [& sets]
+        (check [& lines]
           (first
-           (remove
-            nil?
-            (map
-             foo
-             sets))))
+           (remove nil?
+                   (map find-single-set-winner lines))))
         (ttt [board]
           (check
            (map set board)

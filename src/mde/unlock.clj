@@ -9,6 +9,8 @@
 
   TODO:
   - logging each failure
+  - implement rules as specs
+  - use spec's test.check to generate interesting boards and moves
   - generalize board size")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -24,7 +26,8 @@
 
 (defn legal-board-size?
   "**Rule:** only square `board`s.
-  _Return boolean._"
+  _Return boolean._
+  NOTE: this is generalized for any square board."
   [board]
   ;; (contains? #{4 9 16 25 36} (count board))
   ;; General checking for squareness for any size grid.
